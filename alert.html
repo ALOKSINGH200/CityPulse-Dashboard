@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>City Alerts & News</title>
+<!--<link rel="stylesheet" href="css/home.css">-->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="nav-left">
+    <img src="icons/building-skyscraper-svgrepo-com.svg" class="logo" />
+    <span class="brand">CityPulse</span>
+  </div>
+
+  <nav class="nav-menu">
+    <a href="index.html"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a class="active" href="alert.html"><i class="fa-solid fa-bell"></i> Alerts</a>
+    <a href="citymap.html"><i class="fa-solid fa-map"></i> City Map</a>
+    <a href="feedback.html"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
+  </nav>
+</header>
+
+<main class="alerts-container">
+
+  <h1 class="alert-title">City Alerts & News</h1>
+  <p class="alert-subtitle">Stay informed with the latest civic updates and announcements</p>
+
+  <!-- FILTERS -->
+  <div class="filter-section">
+    <h3><i class="fa-solid fa-filter"></i> Filter by Category</h3>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn" data-category="Traffic">Traffic</button>
+      <button class="filter-btn" data-category="Health">Health</button>
+      <button class="filter-btn" data-category="Weather">Weather</button>
+      <button class="filter-btn" data-category="Public Notice">Public Notice</button>
+    </div>
+  </div>
+
+  <!-- ALERT LIST -->
+  <div id="alertList"></div>
+
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="alert.js"></script>
+
+</body>
+</html>

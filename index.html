@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CityPulse — Dashboard</title>
+
+  <!--<link rel="stylesheet" href="css/home.css">-->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+  <!-- ============================
+       TOP NAVBAR
+  ============================ -->
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="icons/building-skyscraper-svgrepo-com.svg" class="logo" />
+      <span class="brand">CityPulse</span>
+    </div>
+
+ <nav class="nav-menu">
+  <a href="index.html" class="active">
+    <i class="fa-solid fa-gauge"></i> Dashboard
+  </a>
+
+  <a href="alert.html">
+    <i class="fa-solid fa-bell"></i> Alerts
+  </a>
+
+  <a href="citymap.html">
+    <i class="fa-solid fa-map"></i> City Map
+  </a>
+
+  <a href="feedback.html">
+    <i class="fa-solid fa-comment-dots"></i> Feedback
+  </a>
+</nav>
+
+  </header>
+
+
+
+  <!-- ============================
+         MAIN HOME DASHBOARD
+  ============================ -->
+  <main class="container">
+
+    <!-- Title Section (Matches Screenshot) -->
+    <section class="hero">
+      <h1>Welcome to <span class="blue">CityPulse</span></h1>
+      <p class="subtitle">Real-time city data and civic awareness at your fingertips</p>
+    </section>
+
+
+    <!-- ============================
+         SUMMARY CARDS TOP ROW
+    ============================ -->
+   <section class="date-time-row">
+
+  <!-- Current Date -->
+  <div class="card">
+    <div class="card-icon">
+      <img src="icons/calendar-svgrepo-com.svg" />
+    </div>
+    <h3>Current Date</h3>
+    <div class="value" id="currDate"></div>
+  </div>
+
+  <!-- Current Time -->
+  <div class="card">
+    <div class="card-icon">
+      <img src="icons/clock-svgrepo-com.svg" />
+    </div>
+    <h3>Current Time</h3>
+    <div class="value" id="currTime"></div>
+  </div>
+
+</section>
+
+
+
+      <!-- Temperature Card (Blue Gradient Like Screenshot) -->
+    <section class="cards">
+  <div class="card card-blue">
+    <div class="card-icon -blue">
+      <img src="icons/cloud-svgrepo-com.svg" />
+    </div>
+    <h3>Temperature</h3>
+    <div class="value temp-large">24°C</div>
+    <p class="small-light">Partly Cloudy</p>
+  </div>
+
+  <!-- AQI -->
+  <div class="card">
+    <div class="card-icon">
+      <img src="icons/wind-02-svgrepo-com.svg" />
+    </div>
+    <h3>Air Quality Index</h3>
+    <div class="value">42</div>
+    <p class="small">Good</p>
+  </div>
+
+  <!-- Humidity -->
+  <div class="card">
+    <div class="card-icon">
+      <img src="icons/humidity-svgrepo-com.svg" />
+    </div>
+    <h3>Humidity</h3>
+    <div class="value">65%</div>
+    <p class="small">Current level</p>
+  </div>
+
+  <!-- Traffic -->
+  <div class="card">
+    <div class="card-icon">
+      <img src="icons/traffic-and-transportation-svgrepo-com.svg" />
+    </div>
+    <h3>Traffic Density</h3>
+    <div class="value">Medium</div>
+    <p class="small">65% congestion</p>
+  </div>
+
+</section>
+
+
+
+
+
+    <!-- ============================
+         TRAFFIC FLOW MONITOR
+    ============================ -->
+    <section class="traffic-section">
+      <div class="traffic-panel">
+        <h2>Traffic Flow Monitor</h2>
+
+        <p class="sub">Traffic Congestion Level</p>
+
+        <div class="traffic-bar">
+          <div class="traffic-fill" style="width:65%;"></div>
+        </div>
+
+        <div class="traffic-labels">
+          <span>Low</span>
+          <span>Medium</span>
+          <span>High</span>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ============================
+         3 SMALL CARDS (BOTTOM ROW)
+    ============================ -->
+    <section class="bottom-cards">
+
+      <div class="mini-card green-border">
+        <h3>Weather Outlook</h3>
+        <p>Partly Cloudy with pleasant temperatures.  
+        Perfect day for outdoor activities.</p>
+      </div>
+
+      <div class="mini-card selected">
+        <h3>Air Quality</h3>
+        <p>Air quality is good. Suitable for all outdoor activities.</p>
+      </div>
+
+      <div class="mini-card red-border">
+        <h3>Traffic Advisory</h3>
+        <p>Moderate traffic on major routes.  
+        Plan accordingly for time-sensitive travel.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+<script src="data.js"></script>
+<script type="module" src="app.js"></script>
+
+
+</body>
+</html>

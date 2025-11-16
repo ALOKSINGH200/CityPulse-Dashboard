@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive City Map</title>
+<!--<link rel="stylesheet" href="css/home.css">-->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #f7f9fb;
+        color: #1a1a1a;
+    }
+
+   /* FIX HORIZONTAL SCROLLBAR */
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* FIX NAVBAR OVERLAP */
+.page-wrapper {
+    padding: 40px;
+    margin-top: 100px; /* Prevent navbar covering content */
+}
+
+/* CLEAN + FIXED NAVBAR */
+.navbar {
+    width: 100%;
+    padding: 15px 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box; /* Prevent overflow */
+}
+
+
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* LOGO IMAGE */
+.logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+}
+
+    .brand {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        color: #333;
+        margin-left: 30px;
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 2px solid transparent;
+        transition: 0.2s;
+    }
+
+    .nav-menu a:hover {
+        color: #0d47a1;
+    }
+
+   .nav-menu .active {
+    color: white !important;
+    background: #1d4ed8;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border-bottom: none; /* remove underline */
+}
+
+
+    /* ---------------- HEADER TEXT ---------------- */
+    .page-wrapper {
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    p.subtitle {
+        font-size: 18px;
+        margin-top: 0;
+        color: #555;
+    }
+
+    /* ---------------- LEGEND ---------------- */
+    .legend-box {
+        background: white;
+        padding: 25px 40px;
+        margin: 30px 0;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        width: 95%;
+    }
+
+    .legend-title {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        margin-bottom: 20px;
+        gap: 8px;
+        font-weight: bold;
+    }
+
+    .legend-items {
+        display: flex;
+        gap: 35px;
+        flex-wrap: wrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 17px;
+    }
+
+    .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+    }
+
+    /* Zone colors */
+    .park { background: #16c172; }
+    .hospital { background: #e63946; }
+    .library { background: #0d47a1; }
+    .mall { background: #f2c200; }
+    .school { background: #1e90ff; }
+    .sports { background: #9b4dff; }
+
+    /* ---------------- MAP ---------------- */
+    .map-container {
+        width: 100%;
+        height: 750px;
+        background: white;
+        margin-top: 20px;
+        border-radius: 16px;
+        position: relative;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+
+        background-image:
+            linear-gradient(#e8ecef 1px, transparent 1px),
+            linear-gradient(90deg, #e8ecef 1px, transparent 1px);
+        background-size: 80px 80px;
+    }
+
+    .zone {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: transform .25s ease;
+    }
+
+    .zone:hover {
+        transform: scale(1.12);
+    }
+
+    /* ---------------- MODAL ---------------- */
+    .modal-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.45);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 50;
+    }
+
+    .modal-box {
+        width: 480px;
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        position: relative;
+        animation: popup .25s ease;
+    }
+
+    @keyframes popup {
+        from { transform: scale(0.85); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        font-size: 22px;
+        cursor: pointer;
+        color: #777;
+    }
+
+    .modal-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 12px;
+        color: white;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .modal-title {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .modal-sub {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #555;
+    }
+
+    .close-btn {
+        width: 100%;
+        padding: 14px;
+        margin-top: 25px;
+        border: none;
+        border-radius: 10px;
+        background: #0d47a1;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-left">
+    <img src="icons/building-skyscraper-svgrepo-com.svg" class="logo" />
+    <span class="brand">CityPulse</span>
+  </div>
+
+  <nav class="nav-menu">
+    <a href="index.html"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a href="alert.html"><i class="fa-solid fa-bell"></i> Alerts</a>
+    <a class="active" href="citymap.html"><i class="fa-solid fa-map"></i> City Map</a>
+    <a href="feedback.html"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
+</nav>
+</header>
+
+<div class="page-wrapper">
+
+<h1>Interactive City Map</h1>
+<p class="subtitle">Click on any zone to explore facilities and contact information</p>
+
+<!-- LEGEND -->
+<div class="legend-box">
+    <div class="legend-title"><span>📍</span> Zone Types</div>
+
+    <div class="legend-items">
+        <div class="legend-item"><span class="dot park"></span> Park</div>
+        <div class="legend-item"><span class="dot hospital"></span> Hospital</div>
+        <div class="legend-item"><span class="dot library"></span> Library</div>
+        <div class="legend-item"><span class="dot mall"></span> Mall</div>
+        <div class="legend-item"><span class="dot school"></span> School</div>
+        <div class="legend-item"><span class="dot sports"></span> Sports</div>
+    </div>
+</div>
+
+<!-- MAP -->
+<div class="map-container">
+    <div class="zone park" style="top:120px; left:360px;" data-zone="park">Park</div>
+    <div class="zone hospital" style="top:260px; left:700px;" data-zone="hospital">Hospital</div>
+    <div class="zone sports" style="top:150px; left:820px;" data-zone="sports">Sports</div>
+    <div class="zone school" style="top:360px; left:520px;" data-zone="school">School</div>
+    <div class="zone library" style="top:420px; left:260px;" data-zone="library">Library</div>
+    <div class="zone mall" style="top:520px; left:600px;" data-zone="mall">Mall</div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal-box">
+        <span class="modal-close" onclick="closeModal()">✖</span>
+
+        <div id="modalBadge" class="modal-badge park">Park</div>
+        <div id="modalTitle" class="modal-title"></div>
+
+        <div class="modal-sub">Description</div>
+        <div id="modalDesc"></div>
+
+        <div class="modal-sub">Contact Information</div>
+        <div id="modalContact"></div>
+
+        <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+    const zoneData = {
+        park: {
+            badge: "Park",
+            color: "park",
+            title: "Central Park",
+            desc: "50-acre green space with walking trails, playgrounds, and picnic areas.",
+            contact: "parks@citypulse.gov | +1-555-PARK"
+        },
+        hospital: {
+            badge: "Hospital",
+            color: "hospital",
+            title: "City Hospital",
+            desc: "24/7 emergency care, specialized doctors, and advanced medical facilities.",
+            contact: "contact@cityhospital.org | +1-555-CARE"
+        },
+        school: {
+            badge: "School",
+            color: "school",
+            title: "Greenwood High School",
+            desc: "Modern classrooms, sports programs, and a strong academic curriculum.",
+            contact: "admin@greenwood.edu | +1-555-EDU"
+        },
+        library: {
+            badge: "Library",
+            color: "library",
+            title: "Downtown Public Library",
+            desc: "Large book collections, study rooms, and weekly community events.",
+            contact: "info@downtownlibrary.org | +1-555-READ"
+        },
+        mall: {
+            badge: "Mall",
+            color: "mall",
+            title: "CitySquare Mall",
+            desc: "Over 100 shops, food courts, cinema, and entertainment zones.",
+            contact: "support@citysquare.com | +1-555-MALL"
+        },
+        sports: {
+            badge: "Sports",
+            color: "sports",
+            title: "Metro Sports Arena",
+            desc: "Indoor courts, gym facilities, swimming pool, and training programs.",
+            contact: "info@metrosports.com | +1-555-SPORT"
+        }
+    };
+
+    document.querySelectorAll(".zone").forEach(zone => {
+        zone.addEventListener("click", () => {
+            const id = zone.dataset.zone;
+            const z = zoneData[id];
+
+            document.getElementById("modalBadge").textContent = z.badge;
+            document.getElementById("modalBadge").className = "modal-badge " + z.color;
+            document.getElementById("modalTitle").textContent = z.title;
+            document.getElementById("modalDesc").textContent = z.desc;
+            document.getElementById("modalContact").textContent = z.contact;
+
+            document.getElementById("modalBg").style.display = "flex";
+        });
+    });
+
+    function closeModal() {
+        document.getElementById("modalBg").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
